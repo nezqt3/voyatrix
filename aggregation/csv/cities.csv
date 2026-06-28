@@ -1,0 +1,95 @@
+id,country_id,name
+1,1,New York
+2,1,"Las Vegas, Nevada"
+3,1,"Orlando, Florida"
+4,1,"San Francisco, California"
+5,1,"Los Angeles, California"
+6,1,"Chicago, Illinois"
+7,1,"Miami, Florida"
+8,1,"New Orleans, Louisiana"
+9,1,"Washington, D.C."
+10,1,"San Diego, California"
+11,2,Mexico City
+12,2,Cancun
+13,2,Tulum
+14,3,Rio de Janeiro
+15,3,Salvador
+16,3,Sao Paulo
+17,4,Paris
+18,4,Nice
+19,4,Lyon
+20,5,Milan
+21,5,Rome
+22,5,Venice
+23,6,Berlin
+24,6,Munich
+25,6,Hamburg
+26,7,Barcelona
+27,7,Madrid
+28,7,Valencia
+29,8,Budapest
+30,8,Debrecen
+31,9,Vaduz
+32,9,Balzers
+33,9,Malbun
+34,10,Kotor
+35,10,Budva
+36,10,Bar
+37,11,Oslo
+38,11,Bergen
+39,11,Lofoten Islands
+40,12,Helsinki
+41,12,Rovaniemi
+42,12,Turku
+43,13,Copenhagen
+44,13,Odense
+45,13,Kolding
+46,14,Istanbul
+47,14,Cappadocia
+48,14,Antalya
+49,15,Belgrade
+50,16,Moscow
+51,16,Saint-Petersburg
+52,16,Vladivostok
+53,17,Kyiv
+54,17,Lviv
+55,17,Odesa
+56,18,Beijing
+57,18,Shanghai
+58,18,Tianjin
+59,19,Seoul
+60,19,Busan
+61,19,Incheon
+62,20,Tokyo
+63,20,Kyoto
+64,20,Osaka
+65,21,Bangkok
+66,21,Phuket
+67,21,Pattaya
+68,22,Hanoi
+69,22,Ha Long
+70,22,Da Nang
+71,23,Kuala Lumpur
+72,23,Cameron Highlands
+73,23,Ipoh
+74,24,Bali
+75,24,Jakarta
+76,24,Surabaya
+77,25,Bagan
+78,25,Yangon
+79,25,Inle Lake
+80,26,Siem Reap
+81,26,Phnom Penh
+82,26,Kampot
+83,27,Marina Bay
+84,27,Sentosa Island
+85,27,Orchard Road
+86,28,Sydney
+87,28,Melbourne
+88,28,Brisbane
+89,29,Nairobi
+90,30,Cairo
+91,31,Lagos
+92,32,Dubai
+93,32,Abu Dhabi
+94,32,Sharjah

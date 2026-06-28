@@ -1,4 +1,5 @@
 .venv
+.env
 export
 **/__pycache__/**
 information.docx
