@@ -58,18 +58,42 @@ import json
 import csv
 import re
 
-from helper import (
-    OBJECT_PATTERN,
-    SECTION_PATTERN,
-    CONTINENT_PATTERN,
-    normalize_url,
-    is_url,
-    clean_name,
-    is_city_line,
-    is_plain_label,
-    find_first_address,
-    country_matches_address,
-)
+try:
+    from .helper import (
+        OBJECT_PATTERN,
+        SECTION_PATTERN,
+        CONTINENT_PATTERN,
+        normalize_url,
+        is_url,
+        split_inline_uk_address,
+        split_object_text,
+        is_probable_address,
+        is_city_line,
+        is_implicit_city_heading,
+        is_implicit_object_start,
+        is_numbered_geo_heading,
+        is_plain_label,
+        find_first_address,
+        country_matches_address,
+    )
+except ImportError:
+    from helper import (
+        OBJECT_PATTERN,
+        SECTION_PATTERN,
+        CONTINENT_PATTERN,
+        normalize_url,
+        is_url,
+        split_inline_uk_address,
+        split_object_text,
+        is_probable_address,
+        is_city_line,
+        is_implicit_city_heading,
+        is_implicit_object_start,
+        is_numbered_geo_heading,
+        is_plain_label,
+        find_first_address,
+        country_matches_address,
+    )
 
 BASE_DIR = Path(__file__).parent
 INPUT_FILE  = BASE_DIR / "export" / "text.json"
@@ -80,6 +104,10 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 CONTINENT_NAMES = {
     "NORTH AMERICA", "SOUTH AMERICA", "EUROPE", "ASIA", "AUSTRALIA", "AFRICA",
 }
+
+# Some source blocks omit the country from their first address, so the usual
+# address cross-check cannot confirm an otherwise explicit country label.
+TRUSTED_COUNTRY_LABELS = {"United Kingdom"}
 
 URL_RATE_THRESHOLD = 0.5       # ниже — секция считается справочной (без мест)
 
@@ -94,6 +122,8 @@ def image_url(filename: str) -> str:
     Легко заменить на абсолютный, если картинки переедут на CDN:
         return f"https://cdn.example.com/travel/{filename}"
     """
+    if is_url(filename):
+        return filename
     return f"{MEDIA_DIR}/{filename}"
 
 
@@ -116,13 +146,15 @@ def compute_section_url_rates(rows: list) -> dict:
         in_obj      = False
         obj_has_url = False
 
-    for r in rows:
+    for row_index, r in enumerate(rows):
         if r["type"] == "image":
             continue
         t = r["text"]
         if not t:
             continue
-        if SECTION_PATTERN.match(t):
+        if is_numbered_geo_heading(rows, row_index, CONTINENT_NAMES):
+            flush()
+        elif SECTION_PATTERN.match(t):
             flush()
             current_section = t.split("(", 1)[0].strip()
         elif is_city_line(t):
@@ -182,7 +214,7 @@ def merge():
         records.append(current)
         current = None
 
-    for row in rows:
+    for row_index, row in enumerate(rows):
 
         # ── IMAGE ──────────────────────────────────────────────────
         # Изображение почти всегда стоит ПЕРЕД объектом (превью).
@@ -213,7 +245,7 @@ def merge():
             continue
 
         # ── CONTINENT / страна-в-формате-материка ──────────────────
-        if CONTINENT_PATTERN.match(t):
+        if is_numbered_geo_heading(rows, row_index, CONTINENT_NAMES):
             close_current()
             name       = t.split(")", 1)[1].strip()
             name_clean = re.sub(r"\s*\([A-Z]+\)$", "", name).strip()
@@ -234,12 +266,24 @@ def merge():
         if is_city_line(t):
             close_current()
             if is_plain_label(previous_text):
-                addr = find_first_address(rows, rows.index(row) + 1)
-                if addr and country_matches_address(previous_text, addr):
+                addr = find_first_address(rows, row_index + 1)
+                if previous_text in TRUSTED_COUNTRY_LABELS or (
+                    addr and country_matches_address(previous_text, addr)
+                ):
                     context["country"] = previous_text
             if context["country"] is None:
                 context["country"] = context["continent"]
             context.update(city=t[2:].strip(), section=None, category=None)
+            after_section = False
+            continue
+
+        # A small number of source blocks use a bare location label followed
+        # immediately by Accommodation instead of the normal ``- City`` line.
+        if is_implicit_city_heading(rows, row_index, context["section"]):
+            close_current()
+            context.update(
+                country=t, city=t, section=None, category=None,
+            )
             after_section = False
             continue
 
@@ -256,7 +300,13 @@ def merge():
             continue
 
         # ── OBJECT ─────────────────────────────────────────────────
-        if OBJECT_PATTERN.match(t):
+        is_implicit_object = (
+            current is None
+            and not skip_section
+            and context["section"] is not None
+            and is_implicit_object_start(rows, row_index)
+        )
+        if OBJECT_PATTERN.match(t) or is_implicit_object:
             close_current()
 
             if skip_section:
@@ -270,12 +320,14 @@ def merge():
             if after_section and is_plain_label(previous_text):
                 context["category"] = previous_text
 
+            name, inline_description = split_object_text(t)
+            name, inline_address = split_inline_uk_address(name)
             current = {
                 **context,
                 "source_id":   row["id"],
-                "name":        clean_name(t),
-                "address":     "",
-                "description": [],
+                "name":        name,
+                "address":     inline_address,
+                "description": [inline_description] if inline_description else [],
                 "url":         "",
                 # Одна картинка или None. Картинка всегда приходит
                 # непосредственно перед объектом (см. комментарий выше).
@@ -287,7 +339,11 @@ def merge():
 
         # ── CONTENT INSIDE OBJECT ──────────────────────────────────
         if current:
-            if not current["address"]:
+            address_expected = current["section"] in {"Accommodation", "Restaurants/cafe"}
+            if not current["address"] and is_probable_address(
+                t,
+                allow_terminal_punctuation=address_expected,
+            ):
                 current["address"] = t
             else:
                 current["description"].append(t)
@@ -313,7 +369,7 @@ def merge():
     cats = Counter(r["category"] for r in records)
     print("\nКатегории:")
     for cat, cnt in sorted(cats.items(), key=lambda x: -x[1]):
-        print(f"  {cat:35s} {cnt}")
+        print(f"  {(cat or '<missing>'):35s} {cnt}")
 
     print(f"\nСтран:        {len(set(r['country'] or '' for r in records))}")
     print(f"Городов:      {len(set(r['city'] for r in records))}")

@@ -1,0 +1,77 @@
+Aggregation audit
+
+categories: 10
+cities: 97
+continents: 6
+countries: 34
+duplicate_exact_place: 0
+duplicate_place_name_scope: 3
+duplicate_source_id: 0
+empty_accommodation_address: 3
+empty_address: 1406
+empty_description: 7
+empty_image_url: 942
+empty_restaurant_address: 0
+empty_url: 77
+invalid_url: 0
+orphan_category_section_id: 0
+orphan_city_country_id: 0
+orphan_country_continent_id: 0
+orphan_place_category_id: 0
+orphan_place_city_id: 0
+orphan_place_continent_id: 0
+orphan_place_country_id: 0
+orphan_place_section_id: 0
+places: 2604
+sections: 5
+suspicious_file_urls: 0
+
+Top URL domains:
+www.booking.com: 697
+en.wikipedia.org: 404
+www.facebook.com: 48
+www.bookmundi.com: 39
+activities.marriott.com: 33
+www.tripadvisor.com: 32
+tours.olympicair.com: 30
+www.traveloka.com: 29
+www.cooldestinations.com: 29
+www.viator.com: 23
+www.yumping.com: 22
+www.instagram.com: 21
+www.getyourguide.com: 21
+happytovisit.com: 18
+activities.vueling.com: 10
+
+Suspicious sample:
+       source_id                                                                                                                                                                           name                                                        address                                  url
+paragraph_003423 Selva SP Adventure Park – Rafting, Ziplining & More - Day Use (R$ 70 (pay at the location) / R$ 60 (online via Ingressos Kids). Free for children under 4 and seniors over 60)                                                                                                    
+paragraph_003426                                    Selva SP Adventure Park – Rafting, Ziplining & More - Rafting Paulistaninho (R$ 90 (Combo 7: Rafting Paulistaninho + Zipline for children))                                                                                                    
+paragraph_003429                                                             Selva SP Adventure Park – Rafting, Ziplining & More - Boia Cross (R$ 105 (Combo 3: Boia Cross + Zipline + Rappel))                                                                                                    
+paragraph_004715                                                                                                                                           Skydiving (4500m Tandem) (From $289)                                                                                                    
+paragraph_004719                                                                                                                                            Skydiving + Video/Photo (From $333)                                                                                                    
+paragraph_004723                                                                                                                                   Kayaking in Venice Canals (Sunset) ($121.47)                                                                                                    
+paragraph_004727                                                                                                                                Sunset Kayak Class (Basic Training) (From $100)                                                                                                    
+paragraph_004731                                                                                                                                          Lagoon Kayak Tour (Burano) (From $84)                                                                                                    
+paragraph_004920                                                                                                                                                    Indoor Skydiving (From $96)                                                                                                    
+paragraph_004924                                                                                                                                           Bungee Jumping (Contact for pricing)                                                                                                    
+paragraph_006256                                                                                                                Indoor Skydiving Experience at iFLY London 2 Flights ( $108.72)                                                                                                    
+paragraph_006343                                                                                                                                        Old Town Chambers, Autograph Collection                                                                https://www.booking.com/Share-MIr3kz
+paragraph_006358                                                                                                                                                            Market Street hotel                                                                                                    
+paragraph_007000                                                                                                                  Private VIP Adventure Tour (Base price + $15 (€20) per group)                                                                                                    
+paragraph_007121                                                                                                     Nagyerdő (Great Forest) Park (Free (attractions have separate entry fees))                                                                                                    
+paragraph_007167                                                                                                                                 Tree-Top Adventure Course ($5-$10 (estimated))                                                                                                    
+paragraph_007171                                                                                                                                                    Zipline ($3-$7 (estimated))                                                                                                    
+paragraph_007510                                                                                                                                       Tandem Paragliding (Contact for pricing)                                                                                                    
+paragraph_007518                                                                                                                                          Mountain Biking (Contact for pricing)                                                                                                    
+paragraph_007522                                                                                                                                                 E-Biking (Contact for pricing)                                                                                                    
+paragraph_007708                                                                                                                                                     Llama & Alpaca Hike (Free)                                                                                                    
+paragraph_007711                                                                                                                                                 Torchlight Hike & Story (Free)                                                                                                    
+paragraph_007714                                                                                                                                             Snowshoeing Beginner's Tour (Free)                                                                                                    
+paragraph_007717                                                                                                                                              Outdoor Yoga & Winter Walk (Free)                                                                                                    
+paragraph_007720                                                                                                                                              Pony Riding & Stable Visit (Free)                                                                                                    
+paragraph_007899                                                                                                                                                      BBQ Tanjga ($10.00-20.00)                E65, Kotor, Kotor Municipality 85330 Montenegro                                     
+paragraph_008057                                                                                                                                                              Dancer from Budva                                                                                                    
+paragraph_008066                                                                                                                                      Cathedral of St. John the Baptist (Budva)                                                                                                    
+paragraph_008121                                                                                                                                              Konoba Dušanov Vrt ($26.00-53.00) Ulica Petrovacka 1, Budva, Budva Municipality 85310 Montenegro                                     
+paragraph_008475                                                                                                                            7-Day Magical Fjord Adventure (From $1,512 /person)                                                                                                    

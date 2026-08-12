@@ -6,28 +6,30 @@ id,continent_id,name
 5,3,Italia
 6,3,Germany
 7,3,Spain
-8,3,Hungary
-9,3,Liechtenstein
-10,3,Montenegro
-11,3,Norway
-12,3,Finland
-13,3,Denmark
-14,3,Turkey
-15,3,Serbia
-16,3,Russia
-17,3,Ukraine
-18,4,China
-19,4,South Korea
-20,4,Japan
-21,4,Thailand
-22,4,Vietnam
-23,4,Malaysia
-24,4,Indonesia
-25,4,Myanmar
-26,4,Cambodia
-27,4,Singapore
-28,5,Australia
-29,6,Kenya
-30,6,Egypt
-31,6,Nigeria
-32,6,United Arab Emirates
+8,3,United Kingdom
+9,3,Hungary
+10,3,Liechtenstein
+11,3,Montenegro
+12,3,Norway
+13,3,Finland
+14,3,Denmark
+15,3,Turkey
+16,3,Serbia
+17,3,Russia
+18,3,Ukraine
+19,4,China
+20,4,South Korea
+21,4,Japan
+22,4,Thailand
+23,4,Hong Kong
+24,4,Vietnam
+25,4,Malaysia
+26,4,Indonesia
+27,4,Myanmar
+28,4,Cambodia
+29,4,Singapore
+30,5,Australia
+31,6,Kenya
+32,6,Egypt
+33,6,Nigeria
+34,6,United Arab Emirates

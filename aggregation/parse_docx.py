@@ -70,11 +70,14 @@ def run():
 
             rid = rel.attrib.get("Id")
             target = rel.attrib.get("Target")
+            target_mode = rel.attrib.get("TargetMode")
 
             if not rid or not target:
                 continue
 
-            if "media/" in target:
+            if target_mode == "External":
+                image_map[rid] = target
+            elif "media/" in target:
                 image_map[rid] = Path(target).name
 
     # ----------------------------
@@ -144,6 +147,10 @@ def run():
             rid = blip.attrib.get(
                 "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed"
             )
+            if not rid:
+                rid = blip.attrib.get(
+                    "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}link"
+                )
 
             if not rid:
                 continue

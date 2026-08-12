@@ -27,69 +27,72 @@ id,country_id,name
 26,7,Barcelona
 27,7,Madrid
 28,7,Valencia
-29,8,Budapest
-30,8,Debrecen
-31,9,Vaduz
-32,9,Balzers
-33,9,Malbun
-34,10,Kotor
-35,10,Budva
-36,10,Bar
-37,11,Oslo
-38,11,Bergen
-39,11,Lofoten Islands
-40,12,Helsinki
-41,12,Rovaniemi
-42,12,Turku
-43,13,Copenhagen
-44,13,Odense
-45,13,Kolding
-46,14,Istanbul
-47,14,Cappadocia
-48,14,Antalya
-49,15,Belgrade
-50,16,Moscow
-51,16,Saint-Petersburg
-52,16,Vladivostok
-53,17,Kyiv
-54,17,Lviv
-55,17,Odesa
-56,18,Beijing
-57,18,Shanghai
-58,18,Tianjin
-59,19,Seoul
-60,19,Busan
-61,19,Incheon
-62,20,Tokyo
-63,20,Kyoto
-64,20,Osaka
-65,21,Bangkok
-66,21,Phuket
-67,21,Pattaya
-68,22,Hanoi
-69,22,Ha Long
-70,22,Da Nang
-71,23,Kuala Lumpur
-72,23,Cameron Highlands
-73,23,Ipoh
-74,24,Bali
-75,24,Jakarta
-76,24,Surabaya
-77,25,Bagan
-78,25,Yangon
-79,25,Inle Lake
-80,26,Siem Reap
-81,26,Phnom Penh
-82,26,Kampot
-83,27,Marina Bay
-84,27,Sentosa Island
-85,27,Orchard Road
-86,28,Sydney
-87,28,Melbourne
-88,28,Brisbane
-89,29,Nairobi
-90,30,Cairo
-91,31,Lagos
-92,32,Dubai
-93,32,Abu Dhabi
-94,32,Sharjah
+29,8,London
+30,8,Edinburgh
+31,9,Budapest
+32,9,Debrecen
+33,10,Vaduz
+34,10,Balzers
+35,10,Malbun
+36,11,Kotor
+37,11,Budva
+38,11,Bar
+39,12,Oslo
+40,12,Bergen
+41,12,Lofoten Islands
+42,13,Helsinki
+43,13,Rovaniemi
+44,13,Turku
+45,14,Copenhagen
+46,14,Odense
+47,14,Kolding
+48,15,Istanbul
+49,15,Cappadocia
+50,15,Antalya
+51,16,Belgrade
+52,17,Moscow
+53,17,Saint-Petersburg
+54,17,Vladivostok
+55,18,Kyiv
+56,18,Lviv
+57,18,Odesa
+58,19,Beijing
+59,19,Shanghai
+60,19,Tianjin
+61,20,Seoul
+62,20,Busan
+63,20,Incheon
+64,21,Tokyo
+65,21,Kyoto
+66,21,Osaka
+67,22,Bangkok
+68,22,Phuket
+69,22,Pattaya
+70,23,Hong Kong
+71,24,Hanoi
+72,24,Ha Long
+73,24,Da Nang
+74,25,Kuala Lumpur
+75,25,Cameron Highlands
+76,25,Ipoh
+77,26,Bali
+78,26,Jakarta
+79,26,Surabaya
+80,27,Bagan
+81,27,Yangon
+82,27,Inle Lake
+83,28,Siem Reap
+84,28,Phnom Penh
+85,28,Kampot
+86,29,Marina Bay
+87,29,Sentosa Island
+88,29,Orchard Road
+89,30,Sydney
+90,30,Melbourne
+91,30,Brisbane
+92,31,Nairobi
+93,32,Cairo
+94,33,Lagos
+95,34,Dubai
+96,34,Abu Dhabi
+97,34,Sharjah

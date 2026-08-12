@@ -6,5 +6,6 @@ id,section_id,name
 5,3,Excursions
 6,4,Restaurants/cafe
 7,5,Extreme sport
-8,1,Hotel
-9,1,Hostel
+8,1,Accommodation
+9,1,Hotel
+10,1,Hostel
