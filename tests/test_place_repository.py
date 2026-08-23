@@ -42,6 +42,18 @@ def test_place_lookup_returns_enriched_place_or_none(csv_dir):
     assert repository.get_place_by_id("missing") is None
 
 
+def test_place_lookup_resolves_local_image_from_media_root(csv_dir, tmp_path):
+    media_root = tmp_path / "export"
+    image = media_root / "media" / "louvre.jpg"
+    image.parent.mkdir(parents=True)
+    image.write_bytes(b"image")
+    repository = PlaceRepository(csv_dir, media_root=media_root)
+
+    place = repository.get_place_by_id("src-2")
+
+    assert place["image_path"] == str(image.resolve())
+
+
 def test_legacy_name_methods_still_use_normalized_ids(csv_dir):
     repository = PlaceRepository(csv_dir)
 

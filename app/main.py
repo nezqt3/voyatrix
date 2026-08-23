@@ -14,7 +14,7 @@ async def main() -> None:
     setup_logging()
     settings = get_settings()
 
-    repository = PlaceRepository(settings.csv_dir)
+    repository = PlaceRepository(settings.csv_dir, settings.media_root)
     catalog_service = CatalogService(repository)
 
     bot = Bot(token=settings.bot_token)

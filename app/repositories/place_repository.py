@@ -4,8 +4,15 @@ import pandas as pd
 
 
 class PlaceRepository:
-    def __init__(self, csv_dir: str | Path):
+    def __init__(
+        self,
+        csv_dir: str | Path,
+        media_root: str | Path | None = None,
+    ):
         self.csv_dir = Path(csv_dir)
+        self.media_root = (
+            Path(media_root) if media_root else self.csv_dir.parent / "export"
+        )
         self.continents = self._read_csv("continents.csv")
         self.countries = self._read_csv("countries.csv")
         self.cities = self._read_csv("cities.csv")
@@ -98,6 +105,9 @@ class PlaceRepository:
         section_id = place.get("section_id", "")
         continent_id = place.get("continent_id", "")
 
+        image_url = place.get("image_url", "")
+        image_path = self._resolve_image_path(image_url)
+
         return {
             **place,
             "continent": self._continent_names.get(continent_id, ""),
@@ -105,4 +115,17 @@ class PlaceRepository:
             "city": self._city_names.get(city_id, ""),
             "section": self._section_names.get(section_id, ""),
             "category": self._category_names.get(category_id, ""),
+            "image_path": str(image_path) if image_path else "",
         }
+
+    def _resolve_image_path(self, image_url: str) -> Path | None:
+        if not image_url or image_url.startswith(("http://", "https://")):
+            return None
+
+        relative_path = Path(image_url)
+        candidates = (
+            self.media_root / relative_path,
+            self.csv_dir / relative_path,
+            self.csv_dir.parent / relative_path,
+        )
+        return next((path.resolve() for path in candidates if path.is_file()), None)

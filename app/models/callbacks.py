@@ -8,3 +8,6 @@ class CatalogCallback(CallbackData, prefix="catalog"):
     category_id: str | None = None
     place_id: str | None = None
     page: int = 0
+    country_page: int = 0
+    city_page: int = 0
+    category_page: int = 0

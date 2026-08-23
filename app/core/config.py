@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     bot_token: str
     csv_dir: Path = BASE_DIR / "aggregation" / "csv"
+    media_root: Path = BASE_DIR / "aggregation" / "export"
 
     model_config = SettingsConfigDict(
         env_file=".env",

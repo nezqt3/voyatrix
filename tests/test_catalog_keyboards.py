@@ -5,10 +5,15 @@ from app.bot.keyboards.catalog import (
     place_keyboard,
     places_keyboard,
 )
+from app.models.callbacks import CatalogCallback
 
 
 def _buttons(markup):
     return [button for row in markup.inline_keyboard for button in row]
+
+
+def _callback_data(button):
+    return CatalogCallback.unpack(button.callback_data)
 
 
 def test_country_keyboard_uses_short_country_id_callback():
@@ -16,7 +21,9 @@ def test_country_keyboard_uses_short_country_id_callback():
     button = _buttons(markup)[0]
 
     assert button.text == "United States"
-    assert button.callback_data == "catalog:cities:20::::0"
+    callback = _callback_data(button)
+    assert callback.level == "cities"
+    assert callback.country_id == "20"
     assert len(button.callback_data.encode()) <= 64
 
 
@@ -25,13 +32,29 @@ def test_keyboard_pagination_and_back_buttons():
 
     first_page = cities_keyboard("20", cities)
     first_buttons = _buttons(first_page)
-    assert [button.text for button in first_buttons[-2:]] == ["Next", "Back"]
-    assert first_buttons[-2].callback_data == "catalog:categories:20::::1"
+    assert [button.text for button in first_buttons[-4:]] == [
+        "1 / 2",
+        "Next ›",
+        "← Back",
+        "❓ Help",
+    ]
+    next_callback = _callback_data(first_buttons[-3])
+    assert next_callback.level == "cities"
+    assert next_callback.page == 1
+    assert next_callback.country_id == "20"
 
     second_page = cities_keyboard("20", cities, page=1)
     second_buttons = _buttons(second_page)
-    assert [button.text for button in second_buttons[-2:]] == ["Previous", "Back"]
-    assert second_buttons[0].callback_data == "catalog:categories:20:8:::0"
+    assert [button.text for button in second_buttons[-4:]] == [
+        "‹ Previous",
+        "2 / 2",
+        "← Back",
+        "❓ Help",
+    ]
+    selected_city = _callback_data(second_buttons[0])
+    assert selected_city.level == "categories"
+    assert selected_city.city_id == "8"
+    assert selected_city.city_page == 1
 
 
 def test_category_and_place_keyboards_keep_callbacks_compact():
@@ -50,8 +73,16 @@ def test_category_and_place_keyboards_keep_callbacks_compact():
         {"url": "https://example.com", "source_id": "paragraph_000015"}
     )
 
-    assert _buttons(category_markup)[0].callback_data == "catalog:places:20:200:700::0"
-    assert _buttons(place_markup)[0].callback_data == "catalog:place::::paragraph_000015:0"
+    category_callback = _callback_data(_buttons(category_markup)[0])
+    assert category_callback.level == "places"
+    assert category_callback.category_id == "700"
+
+    place_callback = _callback_data(_buttons(place_markup)[0])
+    assert place_callback.level == "place"
+    assert place_callback.place_id == "paragraph_000015"
+    assert place_callback.country_id == "20"
+    assert place_callback.city_id == "200"
+    assert place_callback.category_id == "700"
     assert _buttons(place_detail_markup)[0].url == "https://example.com"
     for markup in [category_markup, place_markup, place_detail_markup]:
         for button in _buttons(markup):

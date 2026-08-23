@@ -1,4 +1,6 @@
-from app.bot.handlers.catalog import _place_text
+from aiogram.types import FSInputFile
+
+from app.bot.handlers.catalog import _photo_source, _place_text
 
 
 def test_place_text_is_escaped_and_contains_human_readable_fields():
@@ -32,3 +34,15 @@ def test_place_text_truncates_long_description():
 
     assert len(text) < 2100
     assert text.endswith("...")
+
+
+def test_photo_source_uses_local_file_or_external_url(tmp_path):
+    image = tmp_path / "place.jpg"
+    image.write_bytes(b"image")
+
+    local = _photo_source({"image_url": "media/place.jpg", "image_path": str(image)})
+    external = _photo_source({"image_url": "https://example.com/place.jpg"})
+
+    assert isinstance(local, FSInputFile)
+    assert local.path == str(image)
+    assert external == "https://example.com/place.jpg"
