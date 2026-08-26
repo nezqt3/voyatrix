@@ -275,7 +275,7 @@ def help_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.row(
         InlineKeyboardButton(
-            text="🌍 Start exploring",
+            text="🌍 Choose a country",
             callback_data=_callback("countries"),
         )
     )

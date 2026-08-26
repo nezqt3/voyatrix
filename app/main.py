@@ -18,6 +18,7 @@ async def main() -> None:
     catalog_service = CatalogService(repository)
 
     bot = Bot(token=settings.bot_token)
+    await start.setup_bot_menu(bot)
     dispatcher = Dispatcher(catalog_service=catalog_service)
     dispatcher.include_router(start.router)
     dispatcher.include_router(catalog.router)

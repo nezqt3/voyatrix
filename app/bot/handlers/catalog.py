@@ -22,18 +22,20 @@ from app.services.catalog_service import CatalogService
 router = Router()
 
 HELP_TEXT = (
-    "<b>How to explore</b> 🧭\n\n"
-    "1. Pick a country.\n"
-    "2. Choose a city and a category.\n"
-    "3. Open any place to see its photo, details, and website.\n\n"
+    "<b>How to use the bot</b> 🧭\n\n"
+    "1. Choose a country.\n"
+    "2. Select a city and a category.\n"
+    "3. Open a place to see its photo, description, and website.\n\n"
     "Use <b>Previous</b> and <b>Next</b> to browse longer lists. "
-    "The <b>Back</b> button always returns you to your previous selection.\n\n"
-    "You can also send /start at any time to begin again."
+    "The <b>Back</b> button returns you to the previous step.\n\n"
+    "To start over, tap <b>🌍 Choose a country</b> in the menu "
+    "next to the keyboard or send /start."
 )
 
 HELP_ALERT = (
     "Choose a country, city, and category, then open a place. "
-    "Use Previous, Next, and Back to move around. Send /start anytime to begin again."
+    "Use Previous, Next, and Back to move around. "
+    "Send /start anytime to begin again."
 )
 
 
