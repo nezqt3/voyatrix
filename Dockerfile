@@ -5,15 +5,19 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+RUN useradd --create-home --uid 10001 botuser
 
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY --chown=botuser:botuser app ./app
+COPY --chown=botuser:botuser aggregation/csv ./aggregation/csv
+COPY --chown=botuser:botuser aggregation/export/media ./aggregation/export/media
+
+USER botuser
+
+EXPOSE 10000
 
 CMD ["python", "-m", "app.main"]

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: travel-bot
+    runtime: docker
+    plan: free
+    region: frankfurt
+    healthCheckPath: /health
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: CSV_DIR
+        value: aggregation/csv
+      - key: MEDIA_ROOT
+        value: aggregation/export

@@ -15,9 +15,59 @@ MEDIA_ROOT=aggregation/export
 `BOT_TOKEN` is required. `CSV_DIR` and `MEDIA_ROOT` are optional. Local image
 paths such as `media/image1.jpg` are resolved relative to `MEDIA_ROOT`.
 
+Keep `.env` local. Never commit it or copy it into a published Docker image.
+
 ## Run
 
 ```bash
 pip install -r requirements.txt
 python -m app.main
 ```
+
+For development and tests, install `requirements-dev.txt` instead.
+
+Without a public URL the bot uses long polling, which is convenient for local
+development and a regular VM.
+
+## Docker
+
+```bash
+docker compose up --build -d
+docker compose logs -f bot
+```
+
+Redis and a database are not required. The Compose service automatically
+restarts unless it is explicitly stopped.
+
+## Deploy to Render
+
+The repository contains a `render.yaml` Blueprint for a free Docker Web
+Service. On Render the bot automatically switches from polling to a Telegram
+webhook using Render's `RENDER_EXTERNAL_URL`.
+
+1. Revoke any previously exposed Telegram token in `@BotFather` and generate a
+   new token.
+2. Push the repository to GitHub or GitLab.
+3. In Render, choose **New > Blueprint** and connect the repository.
+4. When prompted, set `BOT_TOKEN` to the new token.
+5. Set `WEBHOOK_SECRET` to a long random value containing only letters,
+   numbers, `_`, and `-`.
+6. Deploy and wait until `https://<service>.onrender.com/health` returns
+   `{"status":"ok"}`.
+7. Send `/start` to the bot. The webhook is registered automatically during
+   every service startup.
+
+The free Render service sleeps after a period without inbound traffic. A new
+Telegram webhook request wakes it, so the first response after a quiet period
+can be delayed. Free services can also restart at any time and do not provide
+production availability guarantees.
+
+### Local images
+
+The Docker build includes `aggregation/export/media` when that directory is
+present in the build context. Those images are currently ignored by Git, so a
+Render build made directly from this repository will show text cards instead
+of the 1,659 local photos. To deploy the photos too, either publish them in
+object storage and put HTTPS URLs in `places.csv`, or intentionally add the
+media assets to the deployment source after checking their size and usage
+rights.

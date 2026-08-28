@@ -1,0 +1,12 @@
+.git
+.venv
+.env
+.pytest_cache
+tests
+aggregation/*
+!aggregation/csv/
+!aggregation/csv/**
+!aggregation/export/
+aggregation/export/*
+!aggregation/export/media/
+!aggregation/export/media/**

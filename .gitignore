@@ -1,6 +1,11 @@
 .venv
 .env
 export
+!aggregation/export/
+aggregation/export/*
+!aggregation/export/media/
+aggregation/export/media/*
+!aggregation/export/media/.gitkeep
 **/__pycache__/**
 information.docx
 .DS_Store
