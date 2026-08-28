@@ -8,4 +8,5 @@ aggregation/export/media/*
 !aggregation/export/media/.gitkeep
 **/__pycache__/**
 information.docx
+aggregation/snapshots/
 .DS_Store

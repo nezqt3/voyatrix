@@ -10,35 +10,36 @@ BASE_DIR = Path(__file__).parent
 DOCX_FILE = BASE_DIR / "information.docx"
 
 EXPORT_DIR = BASE_DIR / "export"
-UNPACK_DIR = EXPORT_DIR / "_unpacked"
-MEDIA_DIR = EXPORT_DIR / "media"
 
-EXPORT_DIR.mkdir(exist_ok=True)
-
-
-def run():
+def run(
+    docx_file: Path = DOCX_FILE,
+    export_dir: Path = EXPORT_DIR,
+) -> None:
+    unpack_dir = export_dir / "_unpacked"
+    media_dir = export_dir / "media"
+    export_dir.mkdir(parents=True, exist_ok=True)
 
     # ----------------------------
     # unpack
     # ----------------------------
 
-    if UNPACK_DIR.exists():
-        shutil.rmtree(UNPACK_DIR)
+    if unpack_dir.exists():
+        shutil.rmtree(unpack_dir)
 
-    with zipfile.ZipFile(DOCX_FILE, "r") as z:
-        z.extractall(UNPACK_DIR)
+    with zipfile.ZipFile(docx_file, "r") as z:
+        z.extractall(unpack_dir)
 
     # ----------------------------
     # media
     # ----------------------------
 
-    media_src = UNPACK_DIR / "word" / "media"
+    media_src = unpack_dir / "word" / "media"
 
-    if MEDIA_DIR.exists():
-        shutil.rmtree(MEDIA_DIR)
+    if media_dir.exists():
+        shutil.rmtree(media_dir)
 
     if media_src.exists():
-        shutil.copytree(media_src, MEDIA_DIR)
+        shutil.copytree(media_src, media_dir)
 
     # ----------------------------
     # namespaces
@@ -55,7 +56,7 @@ def run():
     image_map = {}
 
     rels_file = (
-        UNPACK_DIR
+        unpack_dir
         / "word"
         / "_rels"
         / "document.xml.rels"
@@ -84,7 +85,7 @@ def run():
     # document.xml
     # ----------------------------
 
-    xml_file = UNPACK_DIR / "word" / "document.xml"
+    xml_file = unpack_dir / "word" / "document.xml"
 
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -171,7 +172,7 @@ def run():
     # ----------------------------
 
     with open(
-        EXPORT_DIR / "text.json",
+        export_dir / "text.json",
         "w",
         encoding="utf-8"
     ) as f:

@@ -1,5 +1,12 @@
 # Travel Bot
 
+> **PROPRIETARY COMMERCIAL SOFTWARE — ALL RIGHTS RESERVED**
+>
+> Copyright © 2026 Alekseenko Denis. This project is not open source. No use,
+> copying, modification, distribution, deployment, hosting, resale, or creation
+> of derivative works is permitted without prior written authorization. See
+> [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
+
 Telegram bot for browsing travel places from normalized CSV files in `aggregation/csv`.
 
 ## Configuration
@@ -71,3 +78,48 @@ of the 1,659 local photos. To deploy the photos too, either publish them in
 object storage and put HTTPS URLs in `places.csv`, or intentionally add the
 media assets to the deployment source after checking their size and usage
 rights.
+
+## Versioned parser snapshots
+
+Run the complete DOCX parsing pipeline with:
+
+```bash
+python -m aggregation.main
+# or
+make parse
+```
+
+Every successful run creates an immutable timestamped directory:
+
+```text
+aggregation/snapshots/2026-08-28_14-35-20/
+├── export/
+│   ├── media/
+│   └── text.json
+├── merged_data/places.csv
+├── csv/*.csv
+├── reports/
+│   ├── audit_report.txt
+│   ├── comparison_report.txt
+│   └── comparison.json
+└── manifest.json
+```
+
+`comparison_report.txt` shows the count delta and lists places that were added,
+removed, or changed since the previous successful snapshot. The JSON report
+contains the same data for automation. Place matching uses semantic location,
+category, and name instead of paragraph numbers, so inserting a paragraph near
+the top of the DOCX does not make every later place look new.
+
+Only after extraction, normalization, audit, and comparison all succeed is the
+snapshot copied to the live `aggregation/csv`, `aggregation/merged_data`, and
+`aggregation/export` directories used by the bot. `snapshots/latest.json`
+records which version was published. A failed run writes its traceback to a
+`*_FAILED/error.txt` directory and leaves the live catalog unchanged.
+
+The running bot checks the published `places.csv` version on each catalog
+request. When a new snapshot replaces the live catalog, all CSV tables are
+reloaded automatically without restarting the bot.
+
+Snapshots include media and can use significant disk space. They are ignored
+by Git and are retained until you intentionally archive or remove them.

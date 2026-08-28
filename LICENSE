@@ -1,0 +1,63 @@
+PROPRIETARY SOFTWARE LICENSE
+ALL RIGHTS RESERVED
+
+Copyright (c) 2026 Alekseenko Denis. All rights reserved.
+
+This repository and all original material contained in it, including without
+limitation source code, scripts, documentation, database structure, compiled
+artifacts, catalog data, reports, images, and other assets (collectively, the
+"Software"), are proprietary commercial property of the copyright holder.
+
+1. NO LICENSE GRANTED
+
+Access to or visibility of the Software does not grant any license or other
+right to use it. Except where applicable law expressly provides otherwise, no
+person or organization may use the Software without prior written permission
+from the copyright holder.
+
+2. PROHIBITED ACTIVITIES
+
+Without prior written permission, you must not, in whole or in part:
+
+- copy, reproduce, download, install, run, execute, or host the Software;
+- modify, adapt, translate, reverse engineer, decompile, or create derivative
+  works from the Software;
+- publish, distribute, transmit, sell, rent, sublicense, or otherwise make the
+  Software available to any third party;
+- use the Software or its data for any commercial or non-commercial purpose;
+- deploy the Software as a service, bot, website, API, hosted application, or
+  component of another product;
+- extract, scrape, republish, resell, or use the catalog data or assets to
+  create or train another dataset, model, application, or service;
+- remove, obscure, or alter copyright, ownership, or licensing notices.
+
+3. WRITTEN COMMERCIAL LICENSES
+
+The copyright holder may grant separate written licenses under individually
+negotiated terms. Permission is valid only when expressly provided in a written
+agreement signed or otherwise verifiably approved by the copyright holder.
+
+4. THIRD-PARTY MATERIAL
+
+Third-party libraries, services, trademarks, links, and other third-party
+material remain subject to their respective owners' terms and licenses. This
+license does not claim ownership of third-party material and does not override
+any rights or obligations that apply to it.
+
+5. ENFORCEMENT
+
+Unauthorized use may constitute copyright infringement, breach of contract,
+misappropriation, or another violation of applicable law. The copyright holder
+reserves the right to seek all remedies available under applicable law,
+including injunctive relief, damages, recovery of profits where available, and
+reasonable enforcement costs where recoverable.
+
+6. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS" FOR AUTHORIZED USE ONLY, WITHOUT WARRANTIES
+OF ANY KIND, EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE
+COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM, LOSS, OR DAMAGE ARISING
+FROM ACCESS TO OR USE OF THE SOFTWARE.
+
+If any provision of this notice is unenforceable, the remaining provisions
+remain in effect to the maximum extent permitted by applicable law.

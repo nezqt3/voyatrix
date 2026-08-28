@@ -176,8 +176,12 @@ def compute_section_url_rates(rows: list) -> dict:
 #  Проход 2: основной парсинг                                         #
 # ------------------------------------------------------------------ #
 
-def merge():
-    with open(INPUT_FILE, encoding="utf-8") as f:
+def merge(
+    input_file: Path = INPUT_FILE,
+    output_dir: Path = OUTPUT_DIR,
+) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with open(input_file, encoding="utf-8") as f:
         rows: list = json.load(f)
 
     section_url_rate = compute_section_url_rates(rows)
@@ -351,7 +355,7 @@ def merge():
     close_current()
 
     # ── CSV ────────────────────────────────────────────────────────
-    csv_file = OUTPUT_DIR / "places.csv"
+    csv_file = output_dir / "places.csv"
     fieldnames = [
         "source_id", "continent", "country", "city",
         "section", "category", "name", "address",

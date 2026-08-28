@@ -13,6 +13,10 @@ class PlaceRepository:
         self.media_root = (
             Path(media_root) if media_root else self.csv_dir.parent / "export"
         )
+        self._catalog_version: tuple[int, int, int] | None = None
+        self._load_catalog()
+
+    def _load_catalog(self) -> None:
         self.continents = self._read_csv("continents.csv")
         self.countries = self._read_csv("countries.csv")
         self.cities = self._read_csv("cities.csv")
@@ -25,6 +29,19 @@ class PlaceRepository:
         self._category_names = self._names_by_id(self.categories)
         self._section_names = self._names_by_id(self.sections)
         self._continent_names = self._names_by_id(self.continents)
+        self._catalog_version = self._current_catalog_version()
+
+    def _current_catalog_version(self) -> tuple[int, int, int]:
+        stat = (self.csv_dir / "places.csv").stat()
+        return stat.st_mtime_ns, stat.st_size, stat.st_ino
+
+    def _ensure_fresh(self) -> None:
+        try:
+            current_version = self._current_catalog_version()
+        except FileNotFoundError:
+            return
+        if current_version != self._catalog_version:
+            self._load_catalog()
 
     def _read_csv(self, filename: str) -> pd.DataFrame:
         return pd.read_csv(self.csv_dir / filename, dtype=str).fillna("")
@@ -39,21 +56,25 @@ class PlaceRepository:
         return rows.to_dict("records")
 
     def get_countries(self, continent_id: str | None = None) -> list[str]:
+        self._ensure_fresh()
         df = self.countries
         if continent_id:
             df = df[df["continent_id"] == continent_id]
         return [option["name"] for option in self._options(df)]
 
     def get_cities(self, country_id: str) -> list[str]:
+        self._ensure_fresh()
         df = self.cities[self.cities["country_id"] == country_id]
         return [option["name"] for option in self._options(df)]
 
     def get_categories(self, city_id: str) -> list[str]:
+        self._ensure_fresh()
         category_ids = self.places[self.places["city_id"] == city_id]["category_id"].unique()
         df = self.categories[self.categories["id"].isin(category_ids)]
         return [option["name"] for option in self._options(df)]
 
     def get_places(self, city_id: str, category_id: str) -> list[dict]:
+        self._ensure_fresh()
         df = self.places[
             (self.places["city_id"] == city_id)
             & (self.places["category_id"] == category_id)
@@ -61,15 +82,18 @@ class PlaceRepository:
         return [self._enrich_place(row) for row in df.to_dict("records")]
 
     def get_place_by_id(self, source_id: str) -> dict | None:
+        self._ensure_fresh()
         df = self.places[self.places["source_id"] == source_id]
         if df.empty:
             return None
         return self._enrich_place(df.iloc[0].to_dict())
 
     def get_country_options(self) -> list[dict[str, str]]:
+        self._ensure_fresh()
         return self._options(self.countries)
 
     def get_city_options(self, country_id: str) -> list[dict[str, str]]:
+        self._ensure_fresh()
         df = self.cities[self.cities["country_id"] == country_id]
         return self._options(df)
 
@@ -78,6 +102,7 @@ class PlaceRepository:
         country_id: str,
         city_id: str,
     ) -> list[dict[str, str]]:
+        self._ensure_fresh()
         df = self.places[
             (self.places["country_id"] == country_id)
             & (self.places["city_id"] == city_id)
@@ -91,6 +116,7 @@ class PlaceRepository:
         city_id: str,
         category_id: str,
     ) -> list[dict]:
+        self._ensure_fresh()
         df = self.places[
             (self.places["country_id"] == country_id)
             & (self.places["city_id"] == city_id)

@@ -63,3 +63,19 @@ def test_legacy_name_methods_still_use_normalized_ids(csv_dir):
     assert [place["source_id"] for place in repository.get_places("100", "600")] == [
         "src-2"
     ]
+
+
+def test_repository_reloads_catalog_after_atomic_places_replacement(csv_dir, tmp_path):
+    repository = PlaceRepository(csv_dir)
+    places_file = csv_dir / "places.csv"
+    replacement = tmp_path / "places.csv"
+    replacement.write_text(
+        places_file.read_text(encoding="utf-8").replace("Louvre Museum", "New Louvre"),
+        encoding="utf-8",
+    )
+    replacement.replace(places_file)
+
+    place = repository.get_place_by_id("src-2")
+
+    assert place is not None
+    assert place["name"] == "New Louvre"

@@ -1,4 +1,7 @@
-.PHONY: start
+.PHONY: parse start
 
 start:
-	.venv/bin/python ./aggregation/main.py
+	python -m app.main
+
+parse:
+	python -m aggregation.main

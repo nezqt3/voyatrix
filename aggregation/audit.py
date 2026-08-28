@@ -9,20 +9,17 @@ CSV_DIR = BASE_DIR / "csv"
 REPORT_FILE = BASE_DIR / "audit_report.txt"
 
 
-def _read(name: str) -> pd.DataFrame:
-    return pd.read_csv(CSV_DIR / name, dtype=str).fillna("")
+def _read(csv_dir: Path, name: str) -> pd.DataFrame:
+    return pd.read_csv(csv_dir / name, dtype=str).fillna("")
 
 
 def audit(csv_dir: Path = CSV_DIR, report_file: Path = REPORT_FILE) -> dict[str, int]:
-    global CSV_DIR
-    CSV_DIR = csv_dir
-
-    continents = _read("continents.csv")
-    countries = _read("countries.csv")
-    cities = _read("cities.csv")
-    sections = _read("sections.csv")
-    categories = _read("categories.csv")
-    places = _read("places.csv")
+    continents = _read(csv_dir, "continents.csv")
+    countries = _read(csv_dir, "countries.csv")
+    cities = _read(csv_dir, "cities.csv")
+    sections = _read(csv_dir, "sections.csv")
+    categories = _read(csv_dir, "categories.csv")
+    places = _read(csv_dir, "places.csv")
 
     section_ids = {
         name: set(sections.loc[sections["name"] == name, "id"])
@@ -111,6 +108,7 @@ def audit(csv_dir: Path = CSV_DIR, report_file: Path = REPORT_FILE) -> dict[str,
     ][["source_id", "name", "address", "url"]].head(30)
     lines.extend(["", "Suspicious sample:", suspicious.to_string(index=False)])
 
+    report_file.parent.mkdir(parents=True, exist_ok=True)
     report_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Audit report saved to {report_file}")
     print("\n".join(lines[:20]))
